@@ -5,7 +5,7 @@
    ___ \    |        |   |  |   |  |  |   
  _/    _\ ___|      \___/  _|  _| _| \__| 
                                                 
-version: 1.0.0
+version: 1.0.1
 last_update: 11.10.26 (post apocalypse) 
                         
 ```
@@ -20,7 +20,7 @@ contracts. One unit, one package.
 - Package: `units/ai`
 - Implements: Unit Architecture `Patterns\IUnit` — `create()`, `dna()`, `whoami()`
 - Executes tools: **never** (see [What this unit does not do](#what-this-unit-does-not-do))
-- Dependencies: `patterns/unit`, `patterns/event-channel`, one HTTP client
+- Dependencies: `patterns/unit`, `patterns/value-object`, `patterns/event-channel`, one HTTP client
 - PHP: `>=8.1`
 
 ## Why

@@ -18,6 +18,7 @@
     "require": {
         "php": ">=8.1",
         "patterns/unit": "^1.0.1",
+        "patterns/value-object": "^2.0.0",
         "patterns/event-channel": "^1.0",
         "psr/http-client": "^1.0",
         "psr/http-factory": "^1.0",

@@ -27,16 +27,38 @@ if (is_file($appVendor)) {
     require $appVendor;
 }
 
+$patterns = [
+    'unit'          => dirname(__DIR__, 2) . '/unit/src',
+    'value-object'  => dirname(__DIR__, 2) . '/value-object/src',
+    'event-channel' => dirname(__DIR__, 2) . '/event-channel/src',
+];
+
 $roots = [
     'Units\\Ai\\Tests\\' => __DIR__,
     'Units\\Ai\\'        => dirname(__DIR__) . '/src',
-    'Patterns\\'         => [
-        dirname(__DIR__, 2) . '/unit/src',
-        dirname(__DIR__, 2) . '/event-channel/src',
-        dirname(__DIR__, 2) . '/value-object/src',
-        dirname(__DIR__, 2) . '/result/src',
-    ],
+    'Patterns\\'         => array_values($patterns),
 ];
+
+// Every bridged directory is a dependency this package must declare. If the
+// bridge quietly supplies something composer.json does not require, the suite
+// passes here and the package fatals for whoever installs it from Packagist -
+// which is exactly what happened with patterns/value-object, hidden until the
+// package was installed into a clean project. So the harness refuses to lie.
+$manifest = json_decode((string) file_get_contents(dirname(__DIR__) . '/composer.json'), true);
+$required = array_keys($manifest['require'] ?? []);
+
+foreach ($patterns as $package => $dir) {
+    if (!in_array('patterns/' . $package, $required, true)) {
+        fwrite(STDERR, sprintf(
+            "bootstrap: Patterns\\ is bridged from %s, but composer.json does not require patterns/%s%s",
+            $package,
+            $package,
+            PHP_EOL,
+        ));
+
+        exit(1);
+    }
+}
 
 spl_autoload_register(static function (string $class) use ($roots): void {
     foreach ($roots as $prefix => $dirs) {

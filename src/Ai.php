@@ -35,7 +35,7 @@ use Patterns\IUnitSchema;
  */
 final class Ai implements IUnit, IAiProvider
 {
-    public const VERSION = '1.0.0';
+    public const VERSION = '1.0.1';
 
     private function __construct(
         private readonly AiSchema $dna,

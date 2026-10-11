@@ -5,6 +5,21 @@ All notable changes to `units/ai` are documented here.
 Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) ·
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.1] - 2026-10-11
+
+### Fixed
+
+- **`units/ai` could not be installed.** `AiSchema` extends `Patterns\ValueObject`,
+  and `patterns/value-object` was missing from `require` - so a fresh
+  `composer require units/ai` fataled on the first `Ai::create()`. The package
+  suite never noticed, because `tests/bootstrap.php` bridges `Patterns\` to the
+  sibling packages in this repository and quietly supplied the class. The bridge
+  now refuses to bridge a package that `composer.json` does not require.
+
+### Added
+
+- `patterns/value-object ^2.0.0` to `require`.
+
 ## [1.0.0] - 2026-10-11
 
 ### Added
